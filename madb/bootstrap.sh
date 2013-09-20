@@ -33,12 +33,25 @@ service apache2 restart
 
 cd /vagrant
 
-sh ./init_submodules.sh
-
 if [ ! -f ./config/madbconf.yml ]
 then
   cp ./config/madbconf.yml-dist ./config/madbconf.yml
 fi
+
+cp -f config/databases.yml-dist config/databases.yml
+cp -f config/propel.ini-dist config/propel.ini
+
+sed --in-place "s/%%host%%/localhost/" config/databases.yml
+sed --in-place "s/%%host%%/localhost/" config/propel.ini
+
+sed --in-place "s/%%database%%/madb/" config/databases.yml
+sed --in-place "s/%%database%%/madb/" config/propel.ini
+
+sed --in-place "s/%%user%%/root/" config/databases.yml
+sed --in-place "s/%%user%%/root/" config/propel.ini
+
+sed --in-place "s/%%pass%%//" config/databases.yml
+sed --in-place "s/%%pass%%//" config/propel.ini
 
 ./symfony init --no-confirmation
 ./symfony insert-test-data --load-cli

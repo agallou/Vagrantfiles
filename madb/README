@@ -1,0 +1,5 @@
+git clone git@github.com:agallou/mageia-app-db.git
+cd mageia-app-db
+sh ./init_submodules.sh
+ln -s FullPathToVagranfiles/madb/Vagrantfile ./
+vagrant up
