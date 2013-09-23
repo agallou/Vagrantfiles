@@ -1,0 +1,37 @@
+#!/bin/bash
+VF_PATH="`dirname \"$0\"`"
+VF_PATH="`( cd \"$VF_PATH\" && pwd )`"
+VF_PATH="`readlink -f \"$VF_PATH\"/Vagrantfiles`"
+VF_PATH="`dirname \"$VF_PATH\"`"
+
+if [ "$1" == 'list' ]; then
+	find $VF_PATH -maxdepth 1 -mindepth 1 -type "d" -printf "%f\n" | grep -v ".git"
+	exit 0
+fi
+
+
+if [ "$1" != 'init' ]; then
+	echo 'Usage : Vagrantfiles init <projectName>'
+	exit 1
+fi
+
+
+if [ "$2" == '' ]; then
+	echo 'You must pass a projectname';
+	echo 'Usage : Vagrantfiles init <projectName>'
+	exit 2
+fi
+
+
+VF_PATH="$VF_PATH/$2/Vagrantfile"
+
+if [ ! -f $VF_PATH ]; then
+	echo "Project $2 does not exist";
+	echo "Use 'Vagrantfiles list' to get project list";
+	echo "Available projects : ";
+	Vagrantfiles list
+	exit 3
+fi
+
+ln -sv $VF_PATH
+
