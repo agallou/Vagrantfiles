@@ -28,6 +28,28 @@ cat > /etc/apache2/sites-available/default <<DELIM
 </VirtualHost>
 DELIM
 
+#installation xhprof
+apt-get install -y php5-dev make
+
+wget http://pecl.php.net/get/xhprof-0.9.3.tgz
+tar -zxf xhprof-0.9.3.tgz
+cd xhprof-0.9.3/extension
+phpize
+./configure
+make
+make install
+
+mkdir /tmp/xhprof
+chmod 777 /tmp/xhprof
+
+cat >> /etc/php5/apache2/php.ini << EOF
+[xhprof]
+extension=xhprof.so
+  
+xhprof.output_dir=/tmp/xhprof
+EOF
+#fin installation xhprof
+
 a2enmod rewrite
 service apache2 restart
 
