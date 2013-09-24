@@ -13,14 +13,14 @@ cat > /etc/apache2/sites-available/default <<DELIM
     DocumentRoot "/var/www"
     DirectoryIndex index.php
 
-    Alias /sf /vagrant/lib/vendor/symfony/data/web/sf
+    Alias /sf /vagrant/vendor/symfony/symfony1/data/web/sf
 
     <Directory "/var/www/web">
         AllowOverride All
         Allow from All
     </Directory>
 
-    <Directory "/vagrant/lib/vendor/symfony/data/web/sf">
+    <Directory "/vagrant/vendor/symfony/symfony1/data/web/sf">
         AllowOverride all
         Allow from all
     </Directory>
