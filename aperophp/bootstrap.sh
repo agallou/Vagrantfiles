@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+cp -f /vagrant/app/config.php.dist /vagrant/app/config.php
+
+sed --in-place "s/user'      => ''/user' => 'root'/" /vagrant/app/config.php
+sed --in-place "s/password'  => ''/password' => 'rootpass'/" /vagrant/app/config.php
+
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password rootpass'
 sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password rootpass'
 apt-get update
