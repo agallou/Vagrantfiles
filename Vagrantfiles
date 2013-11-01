@@ -10,22 +10,19 @@ if [ "$1" == 'list' ]; then
 fi
 
 
-if [ "$1" != 'init' ]; then
-	echo 'Usage : Vagrantfiles init <projectName>'
-	exit 1
-fi
-
 
 if [ "$2" == '' ]; then
 	echo 'You must pass a projectname';
 	echo 'Usage : Vagrantfiles init <projectName>'
+	echo '   or : Vagrantfiles install <projectName>'
 	exit 2
 fi
 
 
-VF_PATH="$VF_PATH/$2/Vagrantfile"
+VF_PATH2="$VF_PATH/$2/Vagrantfile"
 
-if [ ! -f $VF_PATH ]; then
+
+if [ ! -f $VF_PATH2 ]; then
 	echo "Project $2 does not exist";
 	echo "Use 'Vagrantfiles list' to get project list";
 	echo "Available projects : ";
@@ -33,5 +30,19 @@ if [ ! -f $VF_PATH ]; then
 	exit 3
 fi
 
-ln -sv $VF_PATH
+if [ "$1" == 'install' ]; then
+	"$VF_PATH/$2/install"
+	exit 0
+fi
+
+if [ "$1" == 'init' ]; then
+	ln -sv $VF_PATH2
+	exit 0
+fi
+
+
+echo 'Usage : Vagrantfiles init <projectName>'
+echo '   or : Vagrantfiles install <projectName>'
+exit 1
+
 
